@@ -2,4 +2,6 @@
     <string name="app_name">My Trashy App</string>
     <string name="v1">idi nah</string>
     <string name="yy">Hello World!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
