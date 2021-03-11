@@ -1,58 +1,78 @@
 package com.example.mytrashyapp
 
-import android.content.Intent
+
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
-import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
+import com.example.mytrashyapp.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 
+
+
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
+    private lateinit var navController: NavController
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private lateinit var listener: NavController.OnDestinationChangedListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setupUI()
 
-        setupNavDrawer()
+        setContentView(binding.root)
 
+        navController = findNavController(R.id.fragment)
+        drawerLayout = binding.drawerLayout
+        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+
+        binding.navigationView.setupWithNavController(navController)
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
 
-    fun setupNavDrawer() {
-        val navHostFragment =
-                supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
-        val appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.fragment)
+        return navController.navigateUp(appBarConfiguration)
+                || super.onSupportNavigateUp()
+    }
 
-        findViewById<Toolbar>(R.id.toolbar)
-                .setupWithNavController(navController, appBarConfiguration)
-
-        findViewById<NavigationView>(R.id.nav_view)
-                .setupWithNavController(navController)
+    fun setupUI() {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val isLightModeOn = sharedPreferences.getBoolean("uiMode", true)
+        if(isLightModeOn) {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+        }
     }
 
 
-//    override fun onClick(v: View) {
-//        val action =
-//                NavHostFragmentDirections
-//                        .actionNavHostFragmentToBlankFragment3()
-//        v.findNavController().navigate(action)
-//    }
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
 
-
+        // Checks the orientation of the screen
+        if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE) {
+            println("landscape")
+        } else if (newConfig.orientation === Configuration.ORIENTATION_PORTRAIT) {
+            println("portrait")
+        }
+    }
 
 
 
