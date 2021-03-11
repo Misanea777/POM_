@@ -2,4 +2,19 @@
     <string name="app_name">My Trashy App</string>
     <string name="v1">idi nah</string>
     <string name="yy">Hello World!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Preference Titles -->
+    <string name="ui_header">UI</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- UI Preferences -->
+    <string name="ui_title">Light mode</string>
+    <string name="light_mode_on">Light mode</string>
+    <string name="light_mode_off">Dark mode</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+
 </resources>

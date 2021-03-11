@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/library">
+    <fragment
+        android:id="@+id/library"
+        android:name="com.example.mytrashyapp.library.Library"
+        android:label="Library"
+        tools:layout="@layout/fragment_library" >
+        <action
+            android:id="@+id/action_library_to_profile"
+            app:destination="@id/profile"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_library_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.mytrashyapp.Profile"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profile_to_library"
+            app:destination="@id/library"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_profile_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.mytrashyapp.SettingsFragment"
+        android:label="Settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_library"
+            app:destination="@id/library" />
+        <action
+            android:id="@+id/action_settingsFragment_to_profile"
+            app:destination="@id/profile" />
+    </fragment>
+</navigation>
