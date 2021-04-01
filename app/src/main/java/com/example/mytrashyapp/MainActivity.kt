@@ -2,8 +2,8 @@ package com.example.mytrashyapp
 
 
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
@@ -16,8 +16,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.example.mytrashyapp.databinding.ActivityMainBinding
-import com.google.android.material.navigation.NavigationView
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +26,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    private lateinit var listener: NavController.OnDestinationChangedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    fun setupUI() {
+    private fun setupUI() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val isLightModeOn = sharedPreferences.getBoolean("uiMode", true)
         if(isLightModeOn) {
