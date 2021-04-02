@@ -1,6 +1,7 @@
 package com.example.mytrashyapp
 
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.example.mytrashyapp.databinding.ActivityMainBinding
+import com.example.mytrashyapp.ui.auth.AuthActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +35,11 @@ class MainActivity : AppCompatActivity() {
         setupUI()
 
         setContentView(binding.root)
+
+        //Test
+        val intent = Intent(this, AuthActivity::class.java)
+        startActivity(intent)
+        //
 
         navController = findNavController(R.id.fragment)
         drawerLayout = binding.drawerLayout
