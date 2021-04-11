@@ -1,19 +1,17 @@
 package com.example.mytrashyapp.ui.auth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.example.mytrashyapp.R
+import androidx.lifecycle.lifecycleScope
 import com.example.mytrashyapp.databinding.FragmentLoginBinding
-import com.example.mytrashyapp.network.AuthApi
-import com.example.mytrashyapp.network.RemoteDataSrc
-import com.example.mytrashyapp.network.Resource
-import com.example.mytrashyapp.network.repository.AuthRep
+import com.example.mytrashyapp.data.network.AuthApi
+import com.example.mytrashyapp.data.network.Resource
+import com.example.mytrashyapp.data.network.repository.AuthRep
 import com.example.mytrashyapp.ui.base.BaseFragment
+import kotlinx.coroutines.launch
 
 
 class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRep>() {
@@ -24,7 +22,9 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRep>
         viewModel.loginResponse.observe(viewLifecycleOwner, Observer {
             when(it) {
                 is Resource.Success -> {
-                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                    lifecycleScope.launch{
+                        userPreferences.saveAuthToken(it.value.toString())
+                    }
                 }
                 is Resource.Failure ->
                     Toast.makeText(requireContext(), "Login failure", Toast.LENGTH_LONG).show()
