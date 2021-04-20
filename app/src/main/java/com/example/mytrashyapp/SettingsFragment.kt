@@ -26,7 +26,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    fun setLightModeListener() {
+    private fun setLightModeListener() {
         val uiPreference = preferenceManager.findPreference<Preference>("uiMode") as SwitchPreferenceCompat
         uiPreference.setOnPreferenceChangeListener { _, newValue ->
             if(newValue as Boolean){

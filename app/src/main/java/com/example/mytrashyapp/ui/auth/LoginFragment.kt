@@ -23,7 +23,7 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRep>
             when(it) {
                 is Resource.Success -> {
                     lifecycleScope.launch{
-                        userPreferences.saveAuthToken(it.value.toString())
+                        userPreferences.saveAuthToken(it.value.jwt)
                     }
                 }
                 is Resource.Failure ->
