@@ -1,6 +1,6 @@
 package com.example.mytrashyapp.data.network
 
-import com.example.mytrashyapp.data.network.responses.LoginResp
+import com.example.mytrashyapp.data.responses.LoginResp
 import retrofit2.http.Body
 import retrofit2.http.POST
 

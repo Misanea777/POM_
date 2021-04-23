@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/profile"
-        android:name="com.example.mytrashyapp.Profile"
+        android:name="com.example.mytrashyapp.ui.profile.Profile"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" >
         <action

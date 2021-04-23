@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.example.mytrashyapp.data.network.RemoteDataSrc
-import com.example.mytrashyapp.data.network.repository.BaseRep
+import com.example.mytrashyapp.data.repository.BaseRep
 import com.example.mytrashyapp.data.preferences.UserPreferences
 
 abstract class BaseFragment<VM: ViewModel, B: ViewBinding, R: BaseRep>: Fragment() {

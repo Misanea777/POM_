@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mytrashyapp.data.network.Resource
-import com.example.mytrashyapp.data.network.repository.AuthRep
-import com.example.mytrashyapp.data.network.responses.LoginResp
+import com.example.mytrashyapp.data.repository.AuthRep
+import com.example.mytrashyapp.data.responses.LoginResp
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
@@ -22,6 +22,10 @@ class AuthViewModel(
         pswd: String
     ) = viewModelScope.launch {
         _loginResponse.value = repository.login(email)
+    }
+
+    fun saveAuthToken(token: String) = viewModelScope.launch {
+        repository.saveAuthToken(token)
     }
 
 }
