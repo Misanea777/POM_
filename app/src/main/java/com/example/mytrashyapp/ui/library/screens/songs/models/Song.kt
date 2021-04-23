@@ -1,6 +1,4 @@
-package com.example.mytrashyapp.library.screens.songs.models
-
-import android.widget.ImageView
+package com.example.mytrashyapp.ui.library.screens.songs.models
 
 class Song (
         val image: Int = -1,

@@ -1,4 +1,4 @@
-package com.example.mytrashyapp.library.screens.songs
+package com.example.mytrashyapp.ui.library.screens.songs
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

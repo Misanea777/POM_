@@ -1,4 +1,4 @@
-package com.example.mytrashyapp
+package com.example.mytrashyapp.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import com.example.mytrashyapp.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
 

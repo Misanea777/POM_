@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mytrashyapp.data.repository.AuthRep
 import com.example.mytrashyapp.data.repository.BaseRep
 import com.example.mytrashyapp.data.repository.MusicRep
-import com.example.mytrashyapp.library.screens.songs.SongsViewModel
+import com.example.mytrashyapp.ui.library.screens.songs.SongsViewModel
 import com.example.mytrashyapp.ui.auth.AuthViewModel
 import java.lang.IllegalArgumentException
 

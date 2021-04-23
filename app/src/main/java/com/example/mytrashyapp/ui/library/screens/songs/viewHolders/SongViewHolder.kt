@@ -1,8 +1,8 @@
-package com.example.mytrashyapp.library.screens.songs.viewHolders
+package com.example.mytrashyapp.ui.library.screens.songs.viewHolders
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytrashyapp.databinding.SongBinding
-import com.example.mytrashyapp.library.screens.songs.models.Song
+import com.example.mytrashyapp.ui.library.screens.songs.models.Song
 
 class SongViewHolder (private val binding: SongBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(song: Song) {

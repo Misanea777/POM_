@@ -1,7 +1,6 @@
-package com.example.mytrashyapp.library.screens.songs
+package com.example.mytrashyapp.ui.library.screens.songs
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mytrashyapp.MainActivity
 import com.example.mytrashyapp.R
 import com.example.mytrashyapp.data.network.MusicApi
 import com.example.mytrashyapp.data.network.Resource
@@ -17,10 +15,9 @@ import com.example.mytrashyapp.data.repository.MusicRep
 import com.example.mytrashyapp.databinding.FragmentSongsBinding
 
 
-import com.example.mytrashyapp.library.screens.songs.adapters.SongRecycleViewAdapter
-import com.example.mytrashyapp.library.screens.songs.models.Song
+import com.example.mytrashyapp.ui.library.screens.songs.adapters.SongRecycleViewAdapter
+import com.example.mytrashyapp.ui.library.screens.songs.models.Song
 import com.example.mytrashyapp.ui.base.BaseFragment
-import com.example.mytrashyapp.ui.utils.startNewActivity
 
 
 class SongsFragment : BaseFragment<SongsViewModel, FragmentSongsBinding, MusicRep>() {

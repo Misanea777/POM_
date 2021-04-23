@@ -1,4 +1,4 @@
-package com.example.mytrashyapp.library.screens.genres
+package com.example.mytrashyapp.ui.library.screens.genres
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytrashyapp.R
 import com.example.mytrashyapp.databinding.FragmentGenresBinding
-import com.example.mytrashyapp.library.screens.genres.adapters.GenreRecycleViewAdapter
-import com.example.mytrashyapp.library.screens.genres.models.Genre
-import com.example.mytrashyapp.library.screens.songs.models.Song
+import com.example.mytrashyapp.ui.library.screens.genres.adapters.GenreRecycleViewAdapter
+import com.example.mytrashyapp.ui.library.screens.genres.models.Genre
+import com.example.mytrashyapp.ui.library.screens.songs.models.Song
 
 
 class GenresFragment : Fragment() {

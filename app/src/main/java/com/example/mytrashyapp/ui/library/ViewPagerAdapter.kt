@@ -1,4 +1,4 @@
-package com.example.mytrashyapp.library
+package com.example.mytrashyapp.ui.library
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

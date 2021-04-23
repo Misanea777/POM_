@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
-import com.example.mytrashyapp.MainActivity
+import com.example.mytrashyapp.ui.MainActivity
 import com.example.mytrashyapp.databinding.FragmentLoginBinding
 import com.example.mytrashyapp.data.network.AuthApi
 import com.example.mytrashyapp.data.network.Resource
