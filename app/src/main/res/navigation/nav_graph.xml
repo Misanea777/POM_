@@ -6,7 +6,7 @@
     app:startDestination="@id/library">
     <fragment
         android:id="@+id/library"
-        android:name="com.example.mytrashyapp.library.Library"
+        android:name="com.example.mytrashyapp.ui.library.Library"
         android:label="Library"
         tools:layout="@layout/fragment_library" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/profile"
-        android:name="com.example.mytrashyapp.Profile"
+        android:name="com.example.mytrashyapp.ui.Profile"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.mytrashyapp.SettingsFragment"
+        android:name="com.example.mytrashyapp.ui.SettingsFragment"
         android:label="Settings" >
         <action
             android:id="@+id/action_settingsFragment_to_library"
