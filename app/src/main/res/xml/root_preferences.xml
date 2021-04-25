@@ -20,7 +20,8 @@
             app:key="uiMode"
             app:summaryOff="@string/light_mode_off"
             app:summaryOn="@string/light_mode_on"
-            app:title="@string/ui_title" />
+            app:title="@string/ui_title"
+            app:persistent="false"/>
 
     </PreferenceCategory>
 
