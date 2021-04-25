@@ -1,16 +1,22 @@
 package com.example.mytrashyapp.data.network
 
 import com.example.mytrashyapp.data.network.responses.LoginResp
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import com.example.mytrashyapp.ui.library.screens.genres.models.Genre
+import com.example.mytrashyapp.ui.library.screens.songs.models.Song
+import retrofit2.http.*
 
 interface AuthApi {
 
-    @FormUrlEncoded
+
     @POST("user/login")
     suspend fun login(
-            @Field("token") token: String,
+            @Body token: String,
     ): LoginResp
 
+    @GET("user/song")
+    suspend fun getSong(): Song
+
+
+    @GET("user/genre")
+    suspend fun getGenre(): Genre
 }
