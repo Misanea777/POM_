@@ -8,6 +8,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,7 +21,12 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.example.mytrashyapp.R
+import com.example.mytrashyapp.data.preferences.UserPreferences
 import com.example.mytrashyapp.databinding.ActivityMainBinding
+import com.example.mytrashyapp.util.observeOnce
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,11 +37,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private lateinit var pref: UserPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        pref = UserPreferences(this)
+
+        lifecycleScope.launch { //cashing the uiMode if possible
+            pref.uiMode.first()  // however the next thing is setupUI which is runBlocking so it doesnt matter that much
+        }
+
         setupUI()
+
 
         setContentView(binding.root)
 
@@ -41,7 +61,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.navigationView.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+
+        pref.uiMode.asLiveData().observe(this, Observer {
+            println(it)
+        })
     }
+
 
 
     override fun onSupportNavigateUp(): Boolean {
@@ -51,13 +77,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val isLightModeOn = sharedPreferences.getBoolean("uiMode", true)
-        if(isLightModeOn) {
+        val lightMode = runBlocking { pref.uiMode.first() }
+        println("suca $lightMode")
+        if(lightMode) {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         } else {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
         }
+
     }
 
 
