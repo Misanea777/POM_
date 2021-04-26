@@ -1,6 +1,7 @@
 package com.example.mytrashyapp.ui.library.screens.songs.viewHolders
 
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mytrashyapp.R
 import com.example.mytrashyapp.databinding.SongBinding
 import com.example.mytrashyapp.ui.library.screens.songs.models.Song
 
@@ -8,6 +9,6 @@ class SongViewHolder (private val binding: SongBinding): RecyclerView.ViewHolder
     fun bind(song: Song) {
         binding.songName.text = song.name
         binding.songArtist.text = song.artist
-        binding.imageView.setImageResource(song.image)
+        binding.imageView.setImageResource(R.drawable.music_logo) // hardcoded so far
     }
 }

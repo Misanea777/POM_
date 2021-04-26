@@ -24,5 +24,10 @@ class SongRecycleViewAdapter(private var dataSet: Array<Song>) : RecyclerView.Ad
 
     override fun getItemCount() = dataSet.size
 
+    fun updateDataSet(dataSet: Array<Song>) {
+        this.dataSet = dataSet
+        notifyDataSetChanged()
+    }
+
 
 }

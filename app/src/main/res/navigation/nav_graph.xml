@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/profile"
-        android:name="com.example.mytrashyapp.ui.Profile"
+        android:name="com.example.mytrashyapp.ui.profile.Profile"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -31,16 +31,28 @@
         <action
             android:id="@+id/action_profile_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_profile_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.mytrashyapp.ui.SettingsFragment"
+        android:name="com.example.mytrashyapp.ui.settings.SettingsFragment"
         android:label="Settings" >
         <action
             android:id="@+id/action_settingsFragment_to_library"
             app:destination="@id/library" />
         <action
             android:id="@+id/action_settingsFragment_to_profile"
+            app:destination="@id/profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.mytrashyapp.ui.auth.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_profile"
             app:destination="@id/profile" />
     </fragment>
 </navigation>
