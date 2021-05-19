@@ -1,7 +1,11 @@
 package com.example.mytrashyapp.ui
 
 
+import android.app.Notification
+import android.app.PendingIntent
+import android.content.Intent
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -20,6 +24,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.mytrashyapp.R
 import com.example.mytrashyapp.data.local.preferences.UserPreferences
 import com.example.mytrashyapp.databinding.ActivityMainBinding
+import com.example.mytrashyapp.services.MusicService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -59,6 +64,24 @@ class MainActivity: AppCompatActivity() {
 
         binding.navigationView.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+//        //Testing
+//
+//        val pendingIntent: PendingIntent =
+//            Intent(this, ExampleActivity::class.java).let { notificationIntent ->
+//                PendingIntent.getActivity(this, 0, notificationIntent, 0)
+//            }
+//
+//        val notification: Notification = Notification.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
+//            .setContentTitle(getText(R.string.notification_title))
+//            .setContentText(getText(R.string.notification_message))
+//            .setSmallIcon(R.drawable.icon)
+//            .setContentIntent(pendingIntent)
+//            .setTicker(getText(R.string.ticker_text))
+//            .build()
+//
+//        startForeground(1 notification)
+//        //
 
     }
 
