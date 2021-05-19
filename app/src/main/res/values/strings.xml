@@ -16,5 +16,13 @@
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
+    <string name="email">email</string>
+    <string name="login">Login</string>
+    <string name="forgot_your_password">Forgot your password</string>
+    <string name="don_t_have_an_account_register_now"><![CDATA[don_t_have_an_account_register_now\">Dont\'t have an acc. Register now]]></string>
+    <string name="password">Password</string>
+    <string name="email_hint">Password</string>
+    <string name="Profile">Profile</string>
+    <string name="Email_not_found">Email not found!</string>
 
 </resources>
