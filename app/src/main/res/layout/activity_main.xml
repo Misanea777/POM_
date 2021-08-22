@@ -20,10 +20,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
+    <com.google.android.exoplayer2.ui.PlayerControlView
+        android:id="@+id/player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity= "start"
         app:menu="@menu/drawer_menu"/>
+
+
 </androidx.drawerlayout.widget.DrawerLayout>
