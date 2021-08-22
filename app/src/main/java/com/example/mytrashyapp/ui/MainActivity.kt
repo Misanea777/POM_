@@ -76,23 +76,23 @@ class MainActivity: AppCompatActivity() {
 
         //Testing
 
-//        startStopService()
+        startStopService()
 
-        val res = Uri.Builder().scheme(ContentResolver.SCHEME_ANDROID_RESOURCE).authority(packageName).path(R.raw.test.toString()).build()
-
-        var player = SimpleExoPlayer.Builder(this).build()
-
-        var playerView: PlayerControlView = binding.player
-
-        playerView.player = player
-
-
-        val mi = MediaItem.fromUri(res)
-        player.setMediaItem(mi)
-        player.setPlaybackSpeed(1F)
-        player.prepare()
-        playerView.showTimeoutMs = 0
-        playerView.repeatToggleModes = RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL
+//        val res = Uri.Builder().scheme(ContentResolver.SCHEME_ANDROID_RESOURCE).authority(packageName).path(R.raw.test.toString()).build()
+//
+//        var player = SimpleExoPlayer.Builder(this).build()
+//
+//        var playerView: PlayerControlView = binding.player
+//
+//        playerView.player = player
+//
+//
+//        val mi = MediaItem.fromUri(res)
+//        player.setMediaItem(mi)
+//        player.setPlaybackSpeed(1F)
+//        player.prepare()
+//        playerView.showTimeoutMs = 0
+//        playerView.repeatToggleModes = RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL
 
     }
 
