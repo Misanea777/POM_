@@ -4,6 +4,7 @@ import android.app.*
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.net.Uri
@@ -18,9 +19,10 @@ import com.example.mytrashyapp.R
 import com.example.mytrashyapp.ui.MainActivity
 import com.example.mytrashyapp.util.Constants.Companion.CHANNEL_ID
 import com.example.mytrashyapp.util.Constants.Companion.MUSIC_NOTIFICATION_ID
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.example.mytrashyapp.util.Constants.Companion.PLAY
+import com.example.mytrashyapp.util.Constants.Companion.SONG_ARTIST
+import com.example.mytrashyapp.util.Constants.Companion.SONG_NAME
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import java.util.*
 import kotlinx.coroutines.*
@@ -47,13 +49,8 @@ class MusicService : Service() {
     override fun onCreate() {
         super.onCreate()
         musicPlayer = SimpleExoPlayer.Builder(this).build()
-        //
-        val res = Uri.Builder().scheme(ContentResolver.SCHEME_ANDROID_RESOURCE).authority(packageName).path(R.raw.test.toString()).build()
-        val mi = MediaItem.fromUri(res)
-        musicPlayer.setMediaItem(mi)
         musicPlayer.prepare()
         musicPlayer.playWhenReady = true
-        //
 
         playerNotificationManager = PlayerNotificationManager
             .Builder(
@@ -61,7 +58,31 @@ class MusicService : Service() {
                 MUSIC_NOTIFICATION_ID,
                 CHANNEL_ID
             )
-            .setMediaDescriptionAdapter(DescriptionAdapter())
+            .setMediaDescriptionAdapter(object: PlayerNotificationManager.MediaDescriptionAdapter{
+                override fun getCurrentContentText(player: Player): CharSequence? {
+                    return player.mediaMetadata.description
+                }
+
+                override fun getCurrentContentTitle(player: Player): CharSequence {
+                    return player.mediaMetadata.title.toString()
+                }
+
+                override fun getCurrentLargeIcon(
+                    player: Player,
+                    callback: PlayerNotificationManager.BitmapCallback
+                ): Bitmap? {
+                    return null
+                }
+
+                override fun createCurrentContentIntent(player: Player): PendingIntent? {
+                    // return pending intent
+                    val intent = Intent(this@MusicService, MainActivity::class.java);
+                    return PendingIntent.getActivity(
+                        this@MusicService, 0, intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+                }
+            })
             .setNotificationListener(object : PlayerNotificationManager.NotificationListener{
                 override fun onNotificationPosted(
                     notificationId: Int,
@@ -81,11 +102,34 @@ class MusicService : Service() {
             .build()
 
         playerNotificationManager.setPlayer(musicPlayer)
+        playerNotificationManager.setColor(0x997300)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
+        if(intent?.action.equals(PLAY)) {
+            val extras = intent!!.extras
+            val mediaItem = MediaItem.Builder()
+                .setUri(intent.data!!)
+                .setMediaMetadata(MediaMetadata.Builder()
+                    .setTitle(extras?.getString(SONG_NAME))
+                    .setArtist(extras?.getString(SONG_ARTIST))
+                    .setDescription("trash music")
+                    .build())
+                .build()
+            musicPlayer.setMediaItem(mediaItem)
+        }
         return START_STICKY
+    }
+
+    override fun onDestroy() {
+        playerNotificationManager.setPlayer(null)
+        musicPlayer.release()
+        super.onDestroy()
+    }
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        super.onTaskRemoved(rootIntent)
+//        stopSelf()
     }
 
 

@@ -71,6 +71,7 @@ class SongsFragment : Fragment() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+
     }
 
 }

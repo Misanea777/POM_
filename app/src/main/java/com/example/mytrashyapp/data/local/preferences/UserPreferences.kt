@@ -7,6 +7,9 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.mytrashyapp.ui.library.screens.songs.models.Song
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -40,9 +43,21 @@ class UserPreferences(
         }
     }
 
+    suspend fun saveMusicInfo(songsInfo: ArrayList<Song>) {
+        applicationContext.dataStore.edit { user_data_store ->
+            user_data_store[SONGS_INFO] = Gson().toJson(songsInfo)
+        }
+    }
+
+    val songsInfo: Flow<List<Song>>
+        get() = applicationContext.dataStore.data.map { user_data_store ->
+            Gson().fromJson(user_data_store[SONGS_INFO], Array<Song>::class.java).toList()
+        }
+
     companion object{
         private val KEY_AUTH = stringPreferencesKey("key_auth")
         private val UI_MODE = booleanPreferencesKey("ui_mode")
+        private val SONGS_INFO = stringPreferencesKey("songs_info")
     }
 
 

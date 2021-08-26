@@ -12,3 +12,10 @@ class SongViewHolder (private val binding: SongBinding): RecyclerView.ViewHolder
         binding.imageView.setImageResource(R.drawable.music_logo) // hardcoded so far
     }
 }
+
+fun <T : RecyclerView.ViewHolder> T.listen(event: (positon: Int, type: Int) -> Unit): T {
+    itemView.setOnClickListener {
+        event.invoke(adapterPosition, itemViewType)
+    }
+    return this
+}

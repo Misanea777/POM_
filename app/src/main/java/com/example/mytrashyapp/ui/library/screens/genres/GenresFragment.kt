@@ -35,9 +35,11 @@ class GenresFragment : Fragment() {
 
         val songsDataSet = Array(30) {
             Song(
-                    R.drawable.music_logo,
+
                     "Unkonwn Song",
-                    "DJ Misanea"
+                    "DJ Misanea",
+                    null,
+                    R.drawable.music_logo,
             )
         }
 
