@@ -67,8 +67,6 @@ class MusicService : Service() {
     override fun onCreate() {
         super.onCreate()
         musicPlayer = SimpleExoPlayer.Builder(this).build()
-//        musicPlayer.prepare()
-//        musicPlayer.playWhenReady = true
 
         playerNotificationManager = PlayerNotificationManager
             .Builder(
@@ -123,7 +121,6 @@ class MusicService : Service() {
         playerNotificationManager.setPlayer(musicPlayer)
         playerNotificationManager.setColor(0x997300)
 
-
     }
 
     private suspend fun restoreSavedState() {
@@ -139,7 +136,8 @@ class MusicService : Service() {
             musicPlayer.seekTo(intent.getIntExtra(PLAYER_POS, 0), 0)
             musicPlayer.prepare()
             musicPlayer.play()
-        } else if(intent?.action.equals(SET)) {
+        }
+        else if(intent?.action.equals(SET) && musicPlayer.mediaItemCount == 0) {
             val extrasList = intent!!.getParcelableArrayListExtra<Song>(SONGS)
             mediaBuilder(extrasList)
             runBlocking { restoreSavedState() }

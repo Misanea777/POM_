@@ -39,6 +39,7 @@ class SongRecycleViewAdapter(private var dataSet: Array<Song>,val intent: Intent
         )
 
         if(!intent?.action.equals(MUS_SERVICE)) {
+
             execute(parent.context, SET, dataSet.toCollection(ArrayList()))
         }
 
