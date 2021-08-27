@@ -15,7 +15,7 @@ class GenreViewHolder (private val binding: GenreBinding): RecyclerView.ViewHold
                     LinearLayoutManager.HORIZONTAL,
                     false
             )
-            adapter = SongRecycleViewAdapter(genre.songs)
+            adapter = SongRecycleViewAdapter(genre.songs, null)
             setRecycledViewPool(RecyclerView.RecycledViewPool())
         }
     }

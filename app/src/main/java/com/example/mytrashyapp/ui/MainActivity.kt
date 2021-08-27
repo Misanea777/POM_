@@ -1,31 +1,23 @@
 package com.example.mytrashyapp.ui
 
 
-import android.app.Notification
 import android.app.NotificationChannel
-import android.app.PendingIntent
-import android.content.ContentResolver
-import android.content.Context
-import android.content.Intent
+import android.app.NotificationManager
+import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.ContactsContract
+import android.os.IBinder
 import android.provider.MediaStore
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat.PRIORITY_LOW
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.Observer
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -38,17 +30,13 @@ import com.example.mytrashyapp.data.local.preferences.UserPreferences
 import com.example.mytrashyapp.databinding.ActivityMainBinding
 import com.example.mytrashyapp.services.MusicService
 import com.example.mytrashyapp.ui.library.screens.songs.models.Song
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.example.mytrashyapp.util.Constants.Companion.CHANNEL_ID
 import com.google.android.exoplayer2.ui.PlayerControlView
-import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.util.RepeatModeUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.io.File
-import java.util.jar.Manifest
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -60,6 +48,8 @@ class MainActivity: AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private lateinit var connection: ServiceConnection
+
 
     @Inject
     lateinit var preferences: UserPreferences
@@ -68,7 +58,6 @@ class MainActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
 
         lifecycleScope.launch { //cashing the uiMode if possible
             preferences.uiMode.first()  // however the next thing is setupUI which is runBlocking so it doesnt matter that much
@@ -88,35 +77,43 @@ class MainActivity: AppCompatActivity() {
 
         //Testing
 
-//        startStopService()
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(CHANNEL_ID, "Music_channel", NotificationManager.IMPORTANCE_HIGH)
+            getSystemService(NotificationManager::class.java).createNotificationChannel(notificationChannel)
+        }
 
 
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 111)
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
         } else {
             runBlocking { scanForAudioFiles() }
         }
 
+        initConection()
+
+        bindService(Intent(this, MusicService::class.java), connection, Context.BIND_ABOVE_CLIENT)
 
 
+        val playerView: PlayerControlView = binding.player
+        playerView.showTimeoutMs = 0
+        playerView.repeatToggleModes = RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL
 
 
-//        val res = Uri.Builder().scheme(ContentResolver.SCHEME_ANDROID_RESOURCE).authority(packageName).path(R.raw.test.toString()).build()
-//
-//        var player = SimpleExoPlayer.Builder(this).build()
-//
-//        var playerView: PlayerControlView = binding.player
-//
-//        playerView.player = player
-//
-//
-//        val mi = MediaItem.fromUri(res)
-//        player.setMediaItem(mi)
-//        player.setPlaybackSpeed(1F)
-//        player.prepare()
-//        playerView.showTimeoutMs = 0
-//        playerView.repeatToggleModes = RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL
+    }
 
+    fun initConection() {
+        connection = object: ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                if(service is MusicService.MusicServiceBinder) {
+                    var playerView: PlayerControlView = binding.player
+                    playerView.player = service.getExoPlayerInstance()
+                }
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -125,7 +122,7 @@ class MainActivity: AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == 111 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if(requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             runBlocking { scanForAudioFiles() }
         }
     }
@@ -139,7 +136,6 @@ class MainActivity: AppCompatActivity() {
 
     private fun setupUI() {
         val lightMode = runBlocking { preferences.uiMode.first() }
-        println("suca $lightMode")
         if(lightMode) {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         } else {
@@ -187,7 +183,7 @@ class MainActivity: AppCompatActivity() {
 
             do {
                 val audioArtist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
-                val audioTitle:String = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME))
+                val audioTitle:String = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)).substringBeforeLast(".")
                 val audioUrl = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
 
                 // Add the current music to the list
@@ -195,6 +191,11 @@ class MainActivity: AppCompatActivity() {
             }while (cursor.moveToNext())
         }
         return  list
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
 
     }
 

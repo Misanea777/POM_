@@ -17,10 +17,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import java.net.URL
 
 /**
  * Example local unit test, which will execute on the development machine (host).

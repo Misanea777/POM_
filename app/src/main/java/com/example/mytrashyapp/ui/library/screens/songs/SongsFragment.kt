@@ -1,5 +1,7 @@
 package com.example.mytrashyapp.ui.library.screens.songs
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -51,7 +53,7 @@ class SongsFragment : Fragment() {
 //        }
 
 
-        initRecycleView()
+        initRecycleView(activity?.intent)
 
         viewModel.getSongs(30)
 
@@ -64,9 +66,9 @@ class SongsFragment : Fragment() {
         })
     }
 
-    fun initRecycleView() {
+    fun initRecycleView(intent: Intent?) {
         viewManager = LinearLayoutManager(activity)
-        viewAdapter = SongRecycleViewAdapter(emptyArray<Song>())
+        viewAdapter = SongRecycleViewAdapter(emptyArray<Song>(), intent)
         recyclerView = binding.songRecycleView.apply {
             layoutManager = viewManager
             adapter = viewAdapter

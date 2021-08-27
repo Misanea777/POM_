@@ -2,14 +2,11 @@ package com.example.mytrashyapp.data.local.preferences
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.mytrashyapp.ui.library.screens.songs.models.Song
+import com.google.android.exoplayer2.MediaItem
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -54,10 +51,25 @@ class UserPreferences(
             Gson().fromJson(user_data_store[SONGS_INFO], Array<Song>::class.java).toList()
         }
 
+    suspend fun saveSongPos(songPos: Long) {
+        applicationContext.dataStore.edit { user_data_store ->
+            user_data_store[SONG_POS] = songPos
+        }
+    }
+
+    val songPos: Flow<Long?>
+        get() = applicationContext.dataStore.data.map { user_data_store ->
+            user_data_store[SONG_POS]
+        }
+
+
+
     companion object{
         private val KEY_AUTH = stringPreferencesKey("key_auth")
         private val UI_MODE = booleanPreferencesKey("ui_mode")
         private val SONGS_INFO = stringPreferencesKey("songs_info")
+        private val SONG_POS = longPreferencesKey("song_pos")
+        private val PLAYER_STATE = stringPreferencesKey("player_state")
     }
 
 
