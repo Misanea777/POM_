@@ -51,8 +51,8 @@ class SongRecycleViewAdapter(private var dataSet: Array<Song>,val intent: Intent
     fun execute(context: Context, command: String, playList:  ArrayList<Song>, position: Int = 0) {
         val intent = Intent(command, Uri.parse(""), context, MusicService::class.java )
         val songs = dataSet.toCollection(ArrayList())
-        Collections.rotate(songs, -position)
         intent.putParcelableArrayListExtra(SONGS, songs)
+        intent.putExtra(PLAYER_POS, position)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService (intent)
         } else {

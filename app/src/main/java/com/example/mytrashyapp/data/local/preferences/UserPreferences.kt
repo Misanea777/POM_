@@ -62,6 +62,17 @@ class UserPreferences(
             user_data_store[SONG_POS]
         }
 
+    suspend fun savePlayerPos(playerPos: Int) {
+        applicationContext.dataStore.edit { user_data_store ->
+            user_data_store[PLAYER_STATE] = playerPos
+        }
+    }
+
+    val playerPos: Flow<Int?>
+        get() = applicationContext.dataStore.data.map { user_data_store ->
+            user_data_store[PLAYER_STATE]
+        }
+
 
 
     companion object{
@@ -69,7 +80,7 @@ class UserPreferences(
         private val UI_MODE = booleanPreferencesKey("ui_mode")
         private val SONGS_INFO = stringPreferencesKey("songs_info")
         private val SONG_POS = longPreferencesKey("song_pos")
-        private val PLAYER_STATE = stringPreferencesKey("player_state")
+        private val PLAYER_STATE = intPreferencesKey("player_state")
     }
 
 

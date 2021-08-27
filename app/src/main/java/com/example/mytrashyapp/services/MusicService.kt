@@ -20,10 +20,12 @@ import com.example.mytrashyapp.R
 import com.example.mytrashyapp.data.local.preferences.UserPreferences
 import com.example.mytrashyapp.ui.MainActivity
 import com.example.mytrashyapp.ui.library.screens.songs.models.Song
+import com.example.mytrashyapp.util.Constants
 import com.example.mytrashyapp.util.Constants.Companion.CHANNEL_ID
 import com.example.mytrashyapp.util.Constants.Companion.MUSIC_NOTIFICATION_ID
 import com.example.mytrashyapp.util.Constants.Companion.MUS_SERVICE
 import com.example.mytrashyapp.util.Constants.Companion.PLAY
+import com.example.mytrashyapp.util.Constants.Companion.PLAYER_POS
 import com.example.mytrashyapp.util.Constants.Companion.SET
 import com.example.mytrashyapp.util.Constants.Companion.SONGS
 import com.example.mytrashyapp.util.Constants.Companion.SONG_ARTIST
@@ -55,8 +57,6 @@ class MusicService : Service() {
 
 
     override fun onBind(intent: Intent): IBinder? {
-        println("Some component want to bind with the service")
-        // We don't provide binding, so return null
         return MusicServiceBinder()
     }
 
@@ -127,13 +127,17 @@ class MusicService : Service() {
     }
 
     private suspend fun restoreSavedState() {
-                preferences.songPos.first()?.let { musicPlayer.seekTo(it) }
+        val playerPos = preferences.playerPos.first()
+        val songPos = preferences.songPos.first()
+        musicPlayer.seekTo(playerPos ?: 0, songPos ?: 0)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if(intent?.action.equals(PLAY)) {
             val extrasList = intent!!.getParcelableArrayListExtra<Song>(SONGS)
             mediaBuilder(extrasList)
+            musicPlayer.seekTo(intent.getIntExtra(PLAYER_POS, 0), 0)
+            musicPlayer.prepare()
             musicPlayer.play()
         } else if(intent?.action.equals(SET)) {
             val extrasList = intent!!.getParcelableArrayListExtra<Song>(SONGS)
@@ -156,9 +160,6 @@ class MusicService : Service() {
                 .build() }
 
             musicPlayer.addMediaItems(songs)
-            musicPlayer.prepare()
-            musicPlayer.seekBack()
-
         }
     }
 
@@ -171,8 +172,9 @@ class MusicService : Service() {
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)
         if(!musicPlayer.isPlaying) {
-            println("Yopta ${musicPlayer.currentWindowIndex}")
-            runBlocking { preferences.saveSongPos(musicPlayer.currentPosition) }
+            runBlocking {
+                preferences.saveSongPos(musicPlayer.currentPosition)
+                preferences.savePlayerPos(musicPlayer.currentWindowIndex)}
             stopSelf()
         }
     }
