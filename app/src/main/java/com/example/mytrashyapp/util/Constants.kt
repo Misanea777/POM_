@@ -19,6 +19,8 @@ class Constants {
         const val PLAYER_POS = "PLAYER_POS"
         const val SONG_POS = "SONG_POS"
 
+        const val POSITION = "POSITION"
+
         const val SONGS = "SONGS"
     }
 

@@ -26,6 +26,7 @@ import com.example.mytrashyapp.util.Constants.Companion.MUSIC_NOTIFICATION_ID
 import com.example.mytrashyapp.util.Constants.Companion.MUS_SERVICE
 import com.example.mytrashyapp.util.Constants.Companion.PLAY
 import com.example.mytrashyapp.util.Constants.Companion.PLAYER_POS
+import com.example.mytrashyapp.util.Constants.Companion.POSITION
 import com.example.mytrashyapp.util.Constants.Companion.SET
 import com.example.mytrashyapp.util.Constants.Companion.SONGS
 import com.example.mytrashyapp.util.Constants.Companion.SONG_ARTIST
@@ -94,6 +95,7 @@ class MusicService : Service() {
                     // return pending intent
                     val intent = Intent(this@MusicService, MainActivity::class.java)
                     intent.action = MUS_SERVICE
+                    intent.putExtra(POSITION, musicPlayer.currentWindowIndex)
                     return PendingIntent.getActivity(
                         this@MusicService, 0, intent,
                         PendingIntent.FLAG_UPDATE_CURRENT

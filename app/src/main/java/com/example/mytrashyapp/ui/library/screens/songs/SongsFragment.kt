@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytrashyapp.R
 import com.example.mytrashyapp.databinding.FragmentSongsBinding
+import com.example.mytrashyapp.ui.MainActivity
 import com.example.mytrashyapp.ui.auth.AuthViewModel
 
 import com.example.mytrashyapp.ui.library.screens.songs.adapters.SongRecycleViewAdapter
 import com.example.mytrashyapp.ui.library.screens.songs.models.Song
 import com.example.mytrashyapp.ui.util.handleApiError
+import com.example.mytrashyapp.util.Constants
 import com.example.mytrashyapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +41,7 @@ class SongsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentSongsBinding.inflate(layoutInflater)
+
         return binding.getRoot()
     }
 
@@ -53,7 +56,7 @@ class SongsFragment : Fragment() {
 //        }
 
 
-        initRecycleView(activity?.intent)
+        initRecycleView()
 
         viewModel.getSongs(30)
 
@@ -66,13 +69,17 @@ class SongsFragment : Fragment() {
         })
     }
 
-    fun initRecycleView(intent: Intent?) {
+    fun initRecycleView() {
+        val playerControlView = (activity as? MainActivity)?.playerControlView
+        val lastPosition = playerControlView?.player?.currentWindowIndex ?: -1
+
         viewManager = LinearLayoutManager(activity)
-        viewAdapter = SongRecycleViewAdapter(emptyArray<Song>(), intent)
+        viewAdapter = SongRecycleViewAdapter(playerControlView, emptyArray<Song>(), lastPosition)
         recyclerView = binding.songRecycleView.apply {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+
 
     }
 

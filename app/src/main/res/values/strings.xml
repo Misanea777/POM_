@@ -24,5 +24,7 @@
     <string name="email_hint">Password</string>
     <string name="Profile">Profile</string>
     <string name="Email_not_found">Email not found!</string>
+    <string name="song_name">Song name</string>
+    <string name="artist">Artist</string>
 
 </resources>

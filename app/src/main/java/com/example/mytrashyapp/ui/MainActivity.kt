@@ -44,6 +44,8 @@ class MainActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    lateinit var playerControlView: PlayerControlView
+
     private lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -94,9 +96,10 @@ class MainActivity: AppCompatActivity() {
         bindService(Intent(this, MusicService::class.java), connection, Context.BIND_ABOVE_CLIENT)
 
 
-        val playerView: PlayerControlView = binding.player
-        playerView.showTimeoutMs = 0
-        playerView.repeatToggleModes = RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL
+        playerControlView = binding.player
+
+        playerControlView.showTimeoutMs = 0
+        playerControlView.repeatToggleModes = RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL
 
 
     }
@@ -105,8 +108,7 @@ class MainActivity: AppCompatActivity() {
         connection = object: ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 if(service is MusicService.MusicServiceBinder) {
-                    var playerView: PlayerControlView = binding.player
-                    playerView.player = service.getExoPlayerInstance()
+                    playerControlView.player = service.getExoPlayerInstance()
                 }
             }
 
