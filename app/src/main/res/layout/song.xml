@@ -39,9 +39,15 @@
 
     <TextView
         android:id="@+id/songName"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        
+
         android:layout_width="265dp"
         android:layout_height="0dp"
-        android:text="Song name"
+        android:text="@string/song_name"
         android:textColor="#FFC107"
         android:textSize="18sp"
         card_view:layout_constraintBottom_toTopOf="@+id/guidelineMiddle"
@@ -53,7 +59,7 @@
         android:id="@+id/songArtist"
         android:layout_width="265dp"
         android:layout_height="0dp"
-        android:text="Artist"
+        android:text="@string/artist"
         card_view:layout_constraintBottom_toBottomOf="@+id/imageView"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintStart_toEndOf="@+id/imageView"
